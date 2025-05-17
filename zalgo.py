@@ -4,7 +4,7 @@
 import argparse
 import random
 import unicodedata
-from typing import Iterator, List, Set, Tuple
+from typing import Iterator, List, Tuple
 
 
 COMBINING_CLASSES = {
@@ -45,8 +45,8 @@ def load_combining() -> Tuple[List[str]]:
 ABOVE, BELOW, OTHER = load_combining()
 
 
-def zalgo_choice(choices, n):
-    return "".join(random.choice(choices) for _ in range(n))
+def zalgo_choice(choices: List[str], n: int) -> Iterator[str]:
+    yield from (random.choice(choices) for _ in range(n))
 
 
 def zalgo_gen(text: str, num_above: int, num_below: int, num_other: int) -> Iterator[str]:
@@ -79,7 +79,6 @@ def main() -> None:
     args = arg_parser.parse_args()
 
     # zalgo the input text
-    TEXT = "For I am become death, destroyer of worlds!"
     print(zalgo_text_param(args.input_text, args.num_above, args.num_below, args.num_other))
 
 
