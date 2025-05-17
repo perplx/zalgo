@@ -46,7 +46,8 @@ ABOVE, BELOW, OTHER = load_combining()
 
 
 def zalgo_choice(choices: List[str], n: int) -> Iterator[str]:
-    yield from (random.choice(choices) for _ in range(n))
+    num_choices = int(n * random.random()) # random number between 0 and n
+    yield from (random.choice(choices) for _ in range(num_choices))
 
 
 def zalgo_gen(text: str, num_above: int, num_below: int, num_other: int) -> Iterator[str]:
