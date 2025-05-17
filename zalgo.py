@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+"""Zalgo text generator."""
+
 # standard imports
 import argparse
 import random
@@ -7,6 +9,7 @@ import unicodedata
 from typing import Iterator, List, Tuple
 
 
+# global constants
 COMBINING_CLASSES = {
     202: "Attached Below",
     214: "Attached Above",
@@ -26,6 +29,14 @@ COMBINING_CLASSES = {
 
 
 def load_combining() -> Tuple[List[str]]:
+    """Load combining characters from the `unicodedata` module into 3 classes:
+    - `above` for the combining characters that go above the base characters
+    - `below` for the combining characters that go below the base characters
+    - `other` for the other combining characters
+
+    Determines which by checking for 'above' or 'below' in the name of the combining class.
+    """
+
     above = []
     below = []
     other = []
@@ -46,6 +57,7 @@ ABOVE, BELOW, OTHER = load_combining()
 
 
 def zalgo_choice(choices: List[str], n: int) -> Iterator[str]:
+    """Generate between 0 and `n` characters from the given `choices` of combininc characters."""
     num_choices = int(n * random.random()) # random number between 0 and n
     yield from (random.choice(choices) for _ in range(num_choices))
 
