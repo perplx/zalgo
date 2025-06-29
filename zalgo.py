@@ -59,12 +59,17 @@ ABOVE, BELOW, OTHER = load_combining()
 
 
 def zalgo_choice(choices: List[str], n: int) -> Iterator[str]:
-    """Generate between 0 and `n` characters from the given `choices` of combininc characters."""
+    """Generate between 0 and `n` characters from the given `choices` of combining characters."""
     num_choices = int(n * random.random())  # random number between 0 and n
     yield from (random.choice(choices) for _ in range(num_choices))
 
 
 def zalgo_gen(text: str, num_above: int, num_below: int, num_other: int) -> Iterator[str]:
+    """Generate characters in `text` followed by additional combining characters:
+    - Generate between 0 and `num_above` combining characters above each character in `text`.
+    - Generate between 0 and `num_below` combining characters below each character in `text`.
+    - Generate between 0 and `num_other` other combining characters for each character in `text`.
+    """
     for c in text:
         yield c
         yield from zalgo_choice(ABOVE, num_above)
@@ -73,6 +78,11 @@ def zalgo_gen(text: str, num_above: int, num_below: int, num_other: int) -> Iter
 
 
 def zalgo_text_param(text: str, num_above: int, num_below: int, num_other: int) -> str:
+    """Return `text` with additional combining characters:
+    - Generate between 0 and `num_above` combining characters above each character in `text`.
+    - Generate between 0 and `num_below` combining characters below each character in `text`.
+    - Generate between 0 and `num_other` other combining characters for each character in `text`.
+    """
     return "".join(zalgo_gen(text, num_above, num_below, num_other))
 
 
