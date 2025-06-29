@@ -7,7 +7,7 @@ import argparse
 import random
 import sys
 import unicodedata
-from io import TextIO
+from io import TextIOWrapper
 from typing import Iterator, List, Tuple
 
 
@@ -30,7 +30,7 @@ COMBINING_CLASSES = {
 }
 
 
-def load_combining() -> Tuple[List[str]]:
+def load_combining() -> Tuple[List[str], List[str], List[str]]:
     """Load combining characters from the `unicodedata` module into 3 classes:
     - `above` for the combining characters that go above the base characters
     - `below` for the combining characters that go below the base characters
@@ -60,7 +60,7 @@ ABOVE, BELOW, OTHER = load_combining()
 
 def zalgo_choice(choices: List[str], n: int) -> Iterator[str]:
     """Generate between 0 and `n` characters from the given `choices` of combininc characters."""
-    num_choices = int(n * random.random()) # random number between 0 and n
+    num_choices = int(n * random.random())  # random number between 0 and n
     yield from (random.choice(choices) for _ in range(num_choices))
 
 
@@ -95,10 +95,10 @@ def main() -> None:
 
     # zalgo the input text
     text = zalgo_text_param(args.input_text, args.num_above, args.num_below, args.num_other)
-    if isinstance(sys.stdout, TextIO):
-        sys.stdout.reconfigure(encoding='utf-8')  # FIXME cant > to file otherwise
+    if isinstance(sys.stdout, TextIOWrapper):
+        sys.stdout.reconfigure(encoding="utf-8")  # FIXME can't > to file otherwise
         sys.stdout.write(text)
 
 
-if __name__ ==  "__main__":
+if __name__ == "__main__":
     main()
