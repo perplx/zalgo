@@ -5,7 +5,9 @@
 # standard imports
 import argparse
 import random
+import sys
 import unicodedata
+from io import TextIO
 from typing import Iterator, List, Tuple
 
 
@@ -92,7 +94,10 @@ def main() -> None:
     args = arg_parser.parse_args()
 
     # zalgo the input text
-    print(zalgo_text_param(args.input_text, args.num_above, args.num_below, args.num_other))
+    text = zalgo_text_param(args.input_text, args.num_above, args.num_below, args.num_other)
+    if isinstance(sys.stdout, TextIO):
+        sys.stdout.reconfigure(encoding='utf-8')  # FIXME cant > to file otherwise
+        sys.stdout.write(text)
 
 
 if __name__ ==  "__main__":
